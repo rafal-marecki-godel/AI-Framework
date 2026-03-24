@@ -6,6 +6,17 @@
 export const UrlConfig = {
   home: '/',
   login: '/login',
+  profile: '/profile',
+} as const;
+
+/**
+ * Shared test user data for DemoQA scenarios.
+ */
+export const TestUserConfig = {
+  bookStoreUser: {
+    username: 'Test1',
+    password: 'Test123!',
+  },
 } as const;
 
 export type UrlKey = keyof typeof UrlConfig;

@@ -30,14 +30,14 @@ export class LoginPage extends BasePage {
    * Returns the username input locator.
    */
   private get usernameInputElement(): Locator {
-    return this.getByLabel('UserName');
+    return this.page.locator('#userName');
   }
 
   /**
    * Returns the password input locator.
    */
   private get passwordInputElement(): Locator {
-    return this.getByLabel('Password');
+    return this.page.locator('#password');
   }
 
   /**

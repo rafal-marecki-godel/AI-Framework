@@ -2,6 +2,7 @@
 import { test as base } from '@playwright/test';
 import { HomePage } from '@pages/HomePage';
 import { LoginPage } from '@pages/LoginPage';
+import { ProfilePage } from '../pages/ProfilePage';
 import { UrlConfig } from '@config/environment.config';
 import { Logger } from '@utils/logger';
 
@@ -11,6 +12,7 @@ import { Logger } from '@utils/logger';
 export type BaseFixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
+  profilePage: ProfilePage;
 };
 
 /**
@@ -23,6 +25,9 @@ export class BaseTest {
     },
     loginPage: async ({ page }, use) => {
       await use(new LoginPage(page, UrlConfig.login));
+    },
+    profilePage: async ({ page }, use) => {
+      await use(new ProfilePage(page, UrlConfig.profile));
     },
   });
 

@@ -34,6 +34,13 @@ export abstract class BasePage {
   }
 
   /**
+   * Waits until the browser URL matches the page path.
+   */
+  public async waitForUrl(): Promise<void> {
+    await this.page.waitForURL((url) => url.pathname === this.url);
+  }
+
+  /**
    * Returns an element by ARIA role and name.
    * @param role ARIA role.
    * @param name Accessible name.
