@@ -1,21 +1,20 @@
 // path: tests/e2e/home.spec.ts
 import { test, expect } from '@fixtures/baseTest';
-import { HomePage } from '@pages/HomePage';
 
 /**
  * Home page E2E tests.
  */
 test.describe('Home page', () => {
   /**
-   * Verifies that home page core elements are visible.
+   * Verifies that DemoQA home page core elements are visible.
    */
-  test('should display home heading and header logo', async ({ page }) => {
-    const homePage = new HomePage(page);
+  test('should display header logo and category cards', async ({ homePage, page }) => {
+    await homePage.navigate();
+    await expect(homePage.header.logoImage).toBeVisible();
+    await expect(homePage.elementsCard).toBeVisible();
+    await expect(homePage.formsCard).toBeVisible();
+    await expect(homePage.widgetsCard).toBeVisible();
 
-    await homePage.open();
-    await homePage.expectHeadingVisible();
-    await homePage.header.expectLogoVisible();
-
-    await expect(page).toHaveURL(/.*/);
+    await expect(page).toHaveURL(/demoqa\.com/);
   });
 });

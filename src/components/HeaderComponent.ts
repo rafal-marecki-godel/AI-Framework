@@ -1,5 +1,5 @@
 // path: src/components/HeaderComponent.ts
-import { expect, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { BaseComponent } from './BaseComponent';
 
 /**
@@ -9,22 +9,37 @@ export class HeaderComponent extends BaseComponent {
   /**
    * Creates an instance of HeaderComponent.
    * @param page Playwright page object.
+   * @param locator Root locator used to scope component queries.
    */
-  constructor(page: Page) {
-    super(page);
+  constructor(page: Page, locator: Locator) {
+    super(page, locator);
   }
 
   /**
-   * Asserts that the header logo is visible.
+   * Returns the header logo image element.
    */
-  public async expectLogoVisible(): Promise<void> {
-    await expect(this.getByTestId('header-logo')).toBeVisible();
+  private get logoImageElement(): Locator {
+    return this.root.getByRole('img').first();
   }
 
   /**
-   * Clicks the sign in action in header.
+   * Returns the header home logo link.
    */
-  public async clickSignIn(): Promise<void> {
-    await this.getByRole('button', 'Sign in').click();
+  private get logoLinkElement(): Locator {
+    return this.root.getByRole('link').first();
+  }
+
+  /**
+   * Returns the header logo image locator.
+   */
+  public get logoImage(): Locator {
+    return this.logoImageElement;
+  }
+
+  /**
+   * Clicks the home logo in the header.
+   */
+  public async clickLogo(): Promise<void> {
+    await this.logoLinkElement.click();
   }
 }

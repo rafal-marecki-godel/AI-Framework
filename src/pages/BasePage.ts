@@ -1,34 +1,36 @@
 // path: src/pages/BasePage.ts
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 
 /**
  * Base class for all page objects.
  */
-export class BasePage {
+export abstract class BasePage {
   protected readonly page: Page;
+  protected readonly url: string;
 
   /**
    * Creates an instance of BasePage.
    * @param page Playwright page object.
+   * @param url Page-specific URL path.
    */
-  constructor(page: Page) {
+  protected constructor(page: Page, url: string) {
     this.page = page;
+    this.url = url;
   }
 
   /**
-   * Navigates to a relative URL path.
-   * @param path Relative route path.
+   * Navigates to the page URL and waits for DOM to load.
    */
-  public async navigate(path: string): Promise<void> {
-    await this.page.goto(path);
+  public async navigate(): Promise<import('@playwright/test').Response | null> {
+    const response = await this.page.goto(this.url, { waitUntil: 'domcontentloaded' });
+    return response;
   }
 
   /**
-   * Waits until a test id based element is visible.
-   * @param testId Data test id value.
+   * Navigates back in browser history with DOM load wait.
    */
-  public async waitForTestIdVisible(testId: string): Promise<void> {
-    await expect(this.getByTestId(testId)).toBeVisible();
+  public async navigateBack(): Promise<void> {
+    await this.page.goBack({ waitUntil: 'domcontentloaded' });
   }
 
   /**

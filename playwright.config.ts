@@ -13,7 +13,7 @@ export default defineConfig({
   },
   reporter: [['list']],
   use: {
-    baseURL: getEnvString('BASE_URL', 'https://example.com'),
+    baseURL: getEnvString('BASE_URL', 'https://demoqa.com'),
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

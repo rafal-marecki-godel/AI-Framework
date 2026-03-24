@@ -1,20 +1,30 @@
 // path: src/fixtures/baseTest.ts
-import { test as base, type BrowserContext, type Page } from '@playwright/test';
+import { test as base } from '@playwright/test';
+import { HomePage } from '@pages/HomePage';
+import { LoginPage } from '@pages/LoginPage';
+import { UrlConfig } from '@config/environment.config';
 import { Logger } from '@utils/logger';
 
 /**
  * Shared test fixture context.
  */
 export type BaseFixtures = {
-  context: BrowserContext;
-  page: Page;
+  homePage: HomePage;
+  loginPage: LoginPage;
 };
 
 /**
  * Base test with setup and teardown hooks.
  */
 export class BaseTest {
-  public static readonly test = base.extend<BaseFixtures>({});
+  public static readonly test = base.extend<BaseFixtures>({
+    homePage: async ({ page }, use) => {
+      await use(new HomePage(page, UrlConfig.home));
+    },
+    loginPage: async ({ page }, use) => {
+      await use(new LoginPage(page, UrlConfig.login));
+    },
+  });
 
   /**
    * Registers common setup and teardown hooks.

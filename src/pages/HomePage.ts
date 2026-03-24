@@ -1,5 +1,5 @@
 // path: src/pages/HomePage.ts
-import { expect, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { HeaderComponent } from '@components/HeaderComponent';
 import { BasePage } from './BasePage';
 
@@ -12,32 +12,59 @@ export class HomePage extends BasePage {
   /**
    * Creates an instance of HomePage.
    * @param page Playwright page object.
+   * @param url Page URL path.
    */
-  constructor(page: Page) {
-    super(page);
-    this.header = new HeaderComponent(page);
+  constructor(page: Page, url: string) {
+    super(page, url);
+    this.header = new HeaderComponent(page, page.getByRole('banner'));
   }
 
   /**
-   * Opens the home page route.
+   * Returns Elements category card link.
    */
-  public async open(): Promise<void> {
-    await this.navigate('/');
+  private get elementsCardLink(): Locator {
+    return this.getByRole('link', 'Elements');
   }
 
   /**
-   * Searches by keyword using the global search field.
-   * @param keyword Search text.
+   * Returns Forms category card link.
    */
-  public async search(keyword: string): Promise<void> {
-    await this.getByLabel('Search').fill(keyword);
-    await this.getByRole('button', 'Search').click();
+  private get formsCardLink(): Locator {
+    return this.getByRole('link', 'Forms');
   }
 
   /**
-   * Asserts that the page heading is visible.
+   * Returns Widgets category card link.
    */
-  public async expectHeadingVisible(): Promise<void> {
-    await expect(this.getByRole('heading', 'Home')).toBeVisible();
+  private get widgetsCardLink(): Locator {
+    return this.getByRole('link', 'Widgets');
+  }
+
+  /**
+   * Returns the Elements category card locator.
+   */
+  public get elementsCard(): Locator {
+    return this.elementsCardLink;
+  }
+
+  /**
+   * Returns the Forms category card locator.
+   */
+  public get formsCard(): Locator {
+    return this.formsCardLink;
+  }
+
+  /**
+   * Returns the Widgets category card locator.
+   */
+  public get widgetsCard(): Locator {
+    return this.widgetsCardLink;
+  }
+
+  /**
+   * Opens the Elements category from the home page.
+   */
+  public async openElementsCategory(): Promise<void> {
+    await this.elementsCard.click();
   }
 }

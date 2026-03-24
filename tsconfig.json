@@ -11,6 +11,7 @@
     "types": ["node", "@playwright/test"],
     "baseUrl": ".",
     "paths": {
+      "@config/*": ["config/*"],
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],
