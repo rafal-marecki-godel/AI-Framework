@@ -22,6 +22,10 @@ export const TestUserConfig = {
     username: 'Test1',
     password: 'Test123!',
   },
+  invalidUser: {
+    username: 'invalid-user',
+    password: 'invalid-password',
+  },
 } as const;
 
 export type UrlKey = keyof typeof UrlConfig;

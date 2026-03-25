@@ -25,8 +25,29 @@ test.describe('Login page', () => {
       await expect(profilePage.booksLabel).toBeVisible();
     });
 
-    await test.step('And the displayed username should match the expected normalized value', async () => {
+    await test.step('And the displayed username should match the username in lowercase', async () => {
       await expect(await profilePage.getUserNameValue()).toBe(username.toLowerCase());
+    });
+  });
+
+  /**
+   * Verifies invalid credentials display the login error message.
+   */
+  test('should display invalid credentials message for incorrect login data', async ({ loginPage }) => {
+    const { username, password } = TestUserConfig.invalidUser;
+
+    await test.step('Given the user opens the login page', async () => {
+      await loginPage.navigate();
+    });
+
+    await test.step('When the user signs in with invalid credentials', async () => {
+      await loginPage.loginAs(username, password);
+    });
+
+    await test.step('Then the invalid login message should be displayed', async () => {
+      await expect(loginPage.loginErrorOutput.container).toBeVisible();
+      await expect(loginPage.loginErrorOutput.errorMessage).toBeVisible();
+      await expect(loginPage.loginErrorOutput.errorMessage).toHaveText('Invalid username or password!');
     });
   });
 });

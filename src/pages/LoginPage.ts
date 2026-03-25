@@ -1,6 +1,7 @@
 // path: src/pages/LoginPage.ts
 import { type Locator, type Page } from '@playwright/test';
 import { HeaderComponent } from '@components/HeaderComponent';
+import { ErrorOutputComponent } from '@components/ErrorOutputComponent';
 import { BasePage } from './BasePage';
 
 /**
@@ -8,6 +9,7 @@ import { BasePage } from './BasePage';
  */
 export class LoginPage extends BasePage {
   public readonly header: HeaderComponent;
+  public readonly loginErrorOutput: ErrorOutputComponent;
 
   /**
    * Creates an instance of LoginPage.
@@ -17,6 +19,7 @@ export class LoginPage extends BasePage {
   constructor(page: Page, url: string) {
     super(page, url);
     this.header = new HeaderComponent(page, page.getByRole('banner'));
+    this.loginErrorOutput = new ErrorOutputComponent(page, page.locator('#output'));
   }
 
   /**
