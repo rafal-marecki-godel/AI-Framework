@@ -3,6 +3,7 @@ import { test as base } from '@playwright/test';
 import { HomePage } from '@pages/HomePage';
 import { LoginPage } from '@pages/LoginPage';
 import { ProfilePage } from '../pages/ProfilePage';
+import { AlertsAndWindowsPage } from '@pages/AlertsAndWindowsPage';
 import { UrlConfig } from '@config/environment.config';
 import { Logger } from '@utils/logger';
 
@@ -13,6 +14,7 @@ export type BaseFixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
   profilePage: ProfilePage;
+  alertsAndWindowsPage: AlertsAndWindowsPage;
 };
 
 /**
@@ -28,6 +30,9 @@ export class BaseTest {
     },
     profilePage: async ({ page }, use) => {
       await use(new ProfilePage(page, UrlConfig.profile));
+    },
+    alertsAndWindowsPage: async ({ page }, use) => {
+      await use(new AlertsAndWindowsPage(page, UrlConfig.alertsWindows));
     },
   });
 

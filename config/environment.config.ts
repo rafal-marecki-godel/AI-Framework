@@ -7,6 +7,7 @@ export const UrlConfig = {
   home: '/',
   login: '/login',
   profile: '/profile',
+  alertsWindows: '/alertsWindows',
 } as const;
 
 /**
