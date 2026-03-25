@@ -1,9 +1,6 @@
 // path: src/fixtures/baseTest.ts
 import { test as base } from '@playwright/test';
-import { HomePage } from '@pages/HomePage';
-import { LoginPage } from '@pages/LoginPage';
-import { ProfilePage } from '../pages/ProfilePage';
-import { AlertsAndWindowsPage } from '@pages/AlertsAndWindowsPage';
+import { AlertsAndWindowsPage, ElementsPage, FormsPage, HomePage, InteractionsPage, LoginPage, ProfilePage, WidgetsPage } from '@pages';
 import { UrlConfig } from '@config/environment.config';
 import { Logger } from '@utils/logger';
 
@@ -15,6 +12,10 @@ export type BaseFixtures = {
   loginPage: LoginPage;
   profilePage: ProfilePage;
   alertsAndWindowsPage: AlertsAndWindowsPage;
+  elementsPage: ElementsPage;
+  formsPage: FormsPage;
+  widgetsPage: WidgetsPage;
+  interactionsPage: InteractionsPage;
 };
 
 /**
@@ -33,6 +34,18 @@ export class BaseTest {
     },
     alertsAndWindowsPage: async ({ page }, use) => {
       await use(new AlertsAndWindowsPage(page, UrlConfig.alertsWindows));
+    },
+    elementsPage: async ({ page }, use) => {
+      await use(new ElementsPage(page, UrlConfig.elements));
+    },
+    formsPage: async ({ page }, use) => {
+      await use(new FormsPage(page, UrlConfig.forms));
+    },
+    widgetsPage: async ({ page }, use) => {
+      await use(new WidgetsPage(page, UrlConfig.widgets));
+    },
+    interactionsPage: async ({ page }, use) => {
+      await use(new InteractionsPage(page, UrlConfig.interactions));
     },
   });
 

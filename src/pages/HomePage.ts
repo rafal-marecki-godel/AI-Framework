@@ -2,6 +2,7 @@
 import { type Locator, type Page } from '@playwright/test';
 import { HeaderComponent } from '@components/HeaderComponent';
 import { BasePage } from './BasePage';
+import { HomePageCard } from './enums/HomePageCard';
 
 /**
  * Home page object model.
@@ -62,44 +63,21 @@ export class HomePage extends BasePage {
   }
 
   /**
-   * Opens the Elements card from the home page.
+   * Opens the selected card from the home page.
+   * @param option Card name to open.
    */
-  async openElementsCard(): Promise<void> {
-    await this.elementsCard.click();
-  }
+  async openCardByName(option: HomePageCard): Promise<void> {
+    const cards: Record<HomePageCard, Locator> = {
+      [HomePageCard.Elements]: this.elementsCard,
+      [HomePageCard.Forms]: this.formsCard,
+      [HomePageCard.AlertsFrameAndWindows]: this.alertsFrameAndWindowsCard,
+      [HomePageCard.Widgets]: this.widgetsCard,
+      [HomePageCard.Interactions]: this.interactionsCard,
+      [HomePageCard.BookStoreApplication]: this.bookStoreApplicationCard,
+    };
 
-  /**
-   * Opens the Forms card from the home page.
-   */
-  async openFormsCard(): Promise<void> {
-    await this.formsCard.click();
-  }
+    const card = cards[option];
 
-  /**
-   * Opens the Alerts Frame & Windows card from the home page.
-   */
-  async openAlertsFrameAndWindowsCard(): Promise<void> {
-    await this.alertsFrameAndWindowsCard.click();
-  }
-
-  /**
-   * Opens the Widgets card from the home page.
-   */
-  async openWidgetsCard(): Promise<void> {
-    await this.widgetsCard.click();
-  }
-
-  /**
-   * Opens the Interactions card from the home page.
-   */
-  async openInteractionsCard(): Promise<void> {
-    await this.interactionsCard.click();
-  }
-
-  /**
-   * Opens the Book Store Application card from the home page.
-   */
-  async openBookStoreApplicationCard(): Promise<void> {
-    await this.bookStoreApplicationCard.click();
+    await card.click();
   }
 }

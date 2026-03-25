@@ -1,12 +1,13 @@
+// path: src/pages/ElementsPage.ts
 import { type Page } from '@playwright/test';
 import { BaseCategoryPage } from './BaseCategoryPage';
 
 /**
- * Alerts and Windows page object model.
+ * Elements page object model.
  */
-export class AlertsAndWindowsPage extends BaseCategoryPage {
+export class ElementsPage extends BaseCategoryPage {
   /**
-   * Creates an instance of AlertsAndWindowsPage.
+   * Creates an instance of ElementsPage.
    * @param page Playwright page object.
    * @param url Page URL path.
    */

@@ -8,6 +8,10 @@ export const UrlConfig = {
   login: '/login',
   profile: '/profile',
   alertsWindows: '/alertsWindows',
+  elements: '/elements',
+  forms: '/forms',
+  widgets: '/widgets',
+  interactions: '/interaction',
 } as const;
 
 /**

@@ -1,0 +1,10 @@
+export { AlertsAndWindowsPage } from './AlertsAndWindowsPage';
+export { BaseCategoryPage } from './BaseCategoryPage';
+export { BasePage } from './BasePage';
+export { ElementsPage } from './ElementsPage';
+export { FormsPage } from './FormsPage';
+export { HomePage } from './HomePage';
+export { InteractionsPage } from './InteractionsPage';
+export { LoginPage } from './LoginPage';
+export { ProfilePage } from './ProfilePage';
+export { WidgetsPage } from './WidgetsPage';
