@@ -20,6 +20,14 @@ export abstract class BaseCategoryPage extends BasePage {
   }
 
   /**
+   * Returns the left side navigation panel locator.
+   * Unfortunately no good locator possible here either.
+   */
+  get sideNavPannel(): Locator {
+    return this.page.locator('.left-pannel');
+  }
+
+  /**
    * Returns the advertisement iframe by accessible label.
    */
   get advertisementElement(): Locator {

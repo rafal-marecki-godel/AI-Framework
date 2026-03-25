@@ -28,6 +28,7 @@ export class LoginPage extends BasePage {
 
   /**
    * Returns the username input locator.
+   * There is no good locator for that element, so we have to use the id attribute which is not ideal.
    */
   get usernameInput(): Locator {
     return this.page.locator('#userName');
@@ -35,6 +36,7 @@ export class LoginPage extends BasePage {
 
   /**
    * Returns the password input locator.
+   * There is no good locator for that element, so we have to use the id attribute which is not ideal.
    */
   get passwordInput(): Locator {
     return this.page.locator('#password');

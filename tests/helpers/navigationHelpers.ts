@@ -25,6 +25,7 @@ export async function navigateToCategoryPage(
 
   await test.step(`Then the ${card} page should be displayed`, async () => {
     await targetPage.waitForUrl();
+    await expect(targetPage.sideNavPannel).toBeVisible();
     await expect(targetPage.advertisementElement).toBeVisible();
   });
 }
