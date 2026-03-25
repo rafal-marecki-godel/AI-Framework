@@ -37,7 +37,7 @@ export class HomePage extends BasePage {
    * Returns the Alerts Frame & Windows category card locator.
    */
   get alertsFrameAndWindowsCard(): Locator {
-    return this.getByRole('link', 'Alerts Frame & Windows');
+    return this.getByRole('link', 'Alerts, Frame & Windows');
   }
 
   /**
