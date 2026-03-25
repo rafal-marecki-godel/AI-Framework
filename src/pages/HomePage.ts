@@ -20,51 +20,51 @@ export class HomePage extends BasePage {
   }
 
   /**
-   * Returns Elements category card link.
-   */
-  private get elementsCardLink(): Locator {
-    return this.getByRole('link', 'Elements');
-  }
-
-  /**
-   * Returns Forms category card link.
-   */
-  private get formsCardLink(): Locator {
-    return this.getByRole('link', 'Forms');
-  }
-
-  /**
-   * Returns Widgets category card link.
-   */
-  private get widgetsCardLink(): Locator {
-    return this.getByRole('link', 'Widgets');
-  }
-
-  /**
    * Returns the Elements category card locator.
    */
-  public get elementsCard(): Locator {
-    return this.elementsCardLink;
+  get elementsCard(): Locator {
+    return this.getByRole('link', 'Elements');
   }
 
   /**
    * Returns the Forms category card locator.
    */
-  public get formsCard(): Locator {
-    return this.formsCardLink;
+  get formsCard(): Locator {
+    return this.getByRole('link', 'Forms');
+  }
+
+  /**
+   * Returns the Alerts Frame & Windows category card locator.
+   */
+  get alertsFrameAndWindowsCard(): Locator {
+    return this.getByRole('link', 'Alerts Frame & Windows');
   }
 
   /**
    * Returns the Widgets category card locator.
    */
-  public get widgetsCard(): Locator {
-    return this.widgetsCardLink;
+  get widgetsCard(): Locator {
+    return this.getByRole('link', 'Widgets');
+  }
+
+  /**
+   * Returns the Interactions category card locator.
+   */
+  get interactionsCard(): Locator {
+    return this.getByRole('link', 'Interactions');
+  }
+
+  /**
+   * Returns the Book Store Application category card locator.
+   */
+  get bookStoreApplicationCard(): Locator {
+    return this.getByRole('link', 'Book Store Application');
   }
 
   /**
    * Opens the Elements category from the home page.
    */
-  public async openElementsCategory(): Promise<void> {
+  async openElementsCategory(): Promise<void> {
     await this.elementsCard.click();
   }
 }

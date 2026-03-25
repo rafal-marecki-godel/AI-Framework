@@ -21,7 +21,7 @@ export abstract class BasePage {
   /**
    * Navigates to the page URL and waits for DOM to load.
    */
-  public async navigate(): Promise<import('@playwright/test').Response | null> {
+  async navigate(): Promise<import('@playwright/test').Response | null> {
     const response = await this.page.goto(this.url, { waitUntil: 'domcontentloaded' });
     return response;
   }
@@ -29,14 +29,14 @@ export abstract class BasePage {
   /**
    * Navigates back in browser history with DOM load wait.
    */
-  public async navigateBack(): Promise<void> {
+  async navigateBack(): Promise<void> {
     await this.page.goBack({ waitUntil: 'domcontentloaded' });
   }
 
   /**
    * Waits until the browser URL matches the page path.
    */
-  public async waitForUrl(): Promise<void> {
+  async waitForUrl(): Promise<void> {
     await this.page.waitForURL((url) => url.pathname === this.url);
   }
 

@@ -16,30 +16,23 @@ export class HeaderComponent extends BaseComponent {
   }
 
   /**
-   * Returns the header logo image element.
+   * Returns the header logo image locator.
    */
-  private get logoImageElement(): Locator {
+  get logoImage(): Locator {
     return this.root.getByRole('img').first();
   }
 
   /**
-   * Returns the header home logo link.
+   * Returns the header logo link locator.
    */
-  private get logoLinkElement(): Locator {
+  get logoLink(): Locator {
     return this.root.getByRole('link').first();
-  }
-
-  /**
-   * Returns the header logo image locator.
-   */
-  public get logoImage(): Locator {
-    return this.logoImageElement;
   }
 
   /**
    * Clicks the home logo in the header.
    */
-  public async clickLogo(): Promise<void> {
-    await this.logoLinkElement.click();
+  async clickLogo(): Promise<void> {
+    await this.logoLink.click();
   }
 }

@@ -22,35 +22,21 @@ export class ProfilePage extends BasePage {
   /**
    * Returns the Books label locator.
    */
-  private get booksLabelElement(): Locator {
+  get booksLabel(): Locator {
     return this.page.locator('label').filter({ hasText: 'Books :' });
   }
 
   /**
    * Returns the user name value locator.
    */
-  private get userNameValueElement(): Locator {
+  get userNameValue(): Locator {
     return this.page.locator('#userName-value');
-  }
-
-  /**
-   * Returns the Books label locator.
-   */
-  public get booksLabel(): Locator {
-    return this.booksLabelElement;
-  }
-
-  /**
-   * Returns the user name value locator.
-   */
-  public get userNameValue(): Locator {
-    return this.userNameValueElement;
   }
 
   /**
    * Returns the current user name value.
    */
-  public async getUserNameValue(): Promise<string> {
+  async getUserNameValue(): Promise<string> {
     const value = await this.userNameValue.textContent();
     return value?.trim() ?? '';
   }

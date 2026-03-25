@@ -22,78 +22,43 @@ export class LoginPage extends BasePage {
   /**
    * Returns the login heading locator.
    */
-  private get loginHeadingElement(): Locator {
+  get loginHeading(): Locator {
     return this.getByRole('heading', 'Login');
   }
 
   /**
    * Returns the username input locator.
    */
-  private get usernameInputElement(): Locator {
+  get usernameInput(): Locator {
     return this.page.locator('#userName');
   }
 
   /**
    * Returns the password input locator.
    */
-  private get passwordInputElement(): Locator {
+  get passwordInput(): Locator {
     return this.page.locator('#password');
   }
 
   /**
    * Returns the login button locator.
    */
-  private get loginButtonElement(): Locator {
+  get loginButton(): Locator {
     return this.getByRole('button', 'Login');
   }
 
   /**
    * Returns the new user button locator.
    */
-  private get newUserButtonElement(): Locator {
+  get newUserButton(): Locator {
     return this.getByRole('button', 'New User');
-  }
-
-  /**
-   * Returns the login heading locator.
-   */
-  public get loginHeading(): Locator {
-    return this.loginHeadingElement;
-  }
-
-  /**
-   * Returns the username input locator.
-   */
-  public get usernameInput(): Locator {
-    return this.usernameInputElement;
-  }
-
-  /**
-   * Returns the password input locator.
-   */
-  public get passwordInput(): Locator {
-    return this.passwordInputElement;
-  }
-
-  /**
-   * Returns the login button locator.
-   */
-  public get loginButton(): Locator {
-    return this.loginButtonElement;
-  }
-
-  /**
-   * Returns the new user button locator.
-   */
-  public get newUserButton(): Locator {
-    return this.newUserButtonElement;
   }
 
   /**
    * Fills the username field.
    * @param username Username value.
    */
-  public async fillUsername(username: string): Promise<void> {
+  async fillUsername(username: string): Promise<void> {
     await this.usernameInput.fill(username);
   }
 
@@ -101,21 +66,21 @@ export class LoginPage extends BasePage {
    * Fills the password field.
    * @param password Password value.
    */
-  public async fillPassword(password: string): Promise<void> {
+  async fillPassword(password: string): Promise<void> {
     await this.passwordInput.fill(password);
   }
 
   /**
    * Clicks the login button.
    */
-  public async clickLogin(): Promise<void> {
+  async clickLogin(): Promise<void> {
     await this.loginButton.click();
   }
 
   /**
    * Clicks the new user button.
    */
-  public async clickNewUser(): Promise<void> {
+  async clickNewUser(): Promise<void> {
     await this.newUserButton.click();
   }
 
@@ -124,7 +89,7 @@ export class LoginPage extends BasePage {
    * @param username Username value.
    * @param password Password value.
    */
-  public async loginAs(username: string, password: string): Promise<void> {
+  async loginAs(username: string, password: string): Promise<void> {
     await this.fillUsername(username);
     await this.fillPassword(password);
     await this.clickLogin();
