@@ -1,10 +1,13 @@
 // path: playwright.config.ts
 import { defineConfig, devices } from '@playwright/test';
+import { config } from 'dotenv';
 import { getEnvNumber, getEnvString, getOptionalEnvNumber } from './src/utils/envHelper';
+
+config();
 
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: false,
+  fullyParallel: true,
   retries: getEnvNumber('PW_RETRIES', 0),
   workers: getOptionalEnvNumber('PW_WORKERS') ?? 1,
   timeout: getEnvNumber('PW_TEST_TIMEOUT_MS', 30_000),

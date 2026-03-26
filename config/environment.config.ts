@@ -21,12 +21,16 @@ export const UrlConfig = {
  */
 export const TestUserConfig = {
   bookStoreUser: {
-    username: 'Test1',
+    username: 'test1',
     password: 'Test123!',
   },
   invalidUser: {
     username: 'invalid-user',
     password: 'invalid-password',
+  },
+  regularUser: {
+    username: 'Test3',
+    password: 'Test1234567890!',
   },
 } as const;
 

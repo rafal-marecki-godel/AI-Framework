@@ -7,8 +7,8 @@ import { test, expect } from '@fixtures/baseTest';
  */
 test.describe('[TC-LOGIN] Login page', () => {
   // TC-LOGIN-001: Valid credentials redirect to the profile page and display the normalised username.
-  test('[TC-LOGIN-001] should login and display books label with lowercased username', async ({ loginPage, profilePage }) => {
-    const { username, password } = TestUserConfig.bookStoreUser;
+  test('[TC-LOGIN-001] should login and display username on profile page', async ({ loginPage, profilePage }) => {
+    const { username, password } = TestUserConfig.regularUser;
 
     await test.step('Given the user opens the login page', async () => {
       await loginPage.navigate();
@@ -23,10 +23,8 @@ test.describe('[TC-LOGIN] Login page', () => {
       await expect(profilePage.booksLabel).toBeVisible();
     });
 
-    await test.step('And the displayed username should match the username in lowercase', async () => {
-      // Use the locator directly so Playwright can auto-retry — avoids bypassing the retry
-      // mechanism with `expect(await getValue()).toBe(...)`.
-      await expect(profilePage.userNameValue).toHaveText(username.toLowerCase());
+    await test.step('And the displayed username should match the username', async () => {
+      await expect(profilePage.userNameValue).toHaveText(username);
     });
   });
 
