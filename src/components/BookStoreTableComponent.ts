@@ -44,6 +44,14 @@ export class BookStoreTableComponent extends BaseComponent {
   }
 
   /**
+   * Returns all book titles from the table.
+   */
+  async getAllBookTitles(): Promise<string[]> {
+    const titles = await this.titleLinks.allTextContents();
+    return titles.map(title => title.trim()).filter(Boolean);
+  }
+
+  /**
    * Clicks a book title link by title.
    * @param title Book title.
    */

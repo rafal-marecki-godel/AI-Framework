@@ -2,7 +2,15 @@ import { TestUserConfig } from '@config/environment.config';
 import { test, expect } from '@fixtures/baseTest';
 
 /**
- * Checkout-like flow for adding and removing a book from user collection.
+ * 
+ * DemoQA does not have a real checkout flow, 
+ * But we can simulate a checkout-like flow by: 
+ * - Searching book library, 
+ * - Clicking on a book, 
+ * - Adding it to user profile, 
+ * - Ensuring the book is in the profile
+ * - Removing the book from profile
+ * - Ensuring the book is removed 
  */
 test.describe('Checkout flow', () => {
   test('should add a selected book to profile and remove it', async ({ page, loginPage, bookStorePage, specificBookPage, profilePage }) => {
