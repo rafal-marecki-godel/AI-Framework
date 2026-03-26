@@ -30,7 +30,7 @@ export class ProfilePage extends BaseCategoryPage {
    * Returns the user name value locator.
    */
   get userNameValue(): Locator {
-    return this.page.getByTestId('userNameValue');
+    return this.page.locator('#userName-value');
   }
 
   /**
