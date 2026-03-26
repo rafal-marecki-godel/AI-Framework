@@ -22,6 +22,12 @@ jobs:
 
     env:
       CI: true
+      BASE_URL: https://demoqa.com
+      PW_RETRIES: 2
+      PW_TEST_TIMEOUT_MS: 30000
+      PW_EXPECT_TIMEOUT_MS: 5000
+      PW_HEADLESS: true
+      PW_WORKERS: 3
 
     steps:
       # Check out the repository code
