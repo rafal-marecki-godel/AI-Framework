@@ -60,6 +60,20 @@ export class LoginPage extends BasePage {
   }
 
   /**
+   * Returns the already-logged-in info wrapper locator.
+   */
+  get alreadyLoggedInInfo(): Locator {
+    return this.page.locator('#loading-wrapper');
+  }
+
+  /**
+   * Returns the logout button locator.
+   */
+  get logoutButton(): Locator {
+    return this.getByRole('button', 'Logout');
+  }
+
+  /**
    * Fills the username field.
    * @param username Username value.
    */
@@ -90,11 +104,27 @@ export class LoginPage extends BasePage {
   }
 
   /**
+   * Ensures the session is logged out before continuing.
+   */
+  async ensureLoggedOut(): Promise<void> {
+    await this.navigate();
+
+    if (await this.alreadyLoggedInInfo.isVisible()) {
+      await this.logoutButton.click();
+      await this.usernameInput.waitFor({ state: 'visible' });
+    }
+  }
+
+  /**
    * Logs in with the provided credentials.
    * @param username Username value.
    * @param password Password value.
    */
   async loginAs(username: string, password: string): Promise<void> {
+    if (!(await this.usernameInput.isVisible())) {
+      throw new Error('Login form is not visible on login page.');
+    }
+
     await this.fillUsername(username);
     await this.fillPassword(password);
     await this.clickLogin();

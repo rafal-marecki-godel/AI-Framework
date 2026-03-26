@@ -1,13 +1,13 @@
 // path: src/pages/ProfilePage.ts
 import { type Locator, type Page } from '@playwright/test';
-import { HeaderComponent } from '@components/HeaderComponent';
-import { BasePage } from './BasePage';
+import { ProfileBooksTableComponent } from '@components/ProfileBooksTableComponent';
+import { BaseCategoryPage } from './BaseCategoryPage';
 
 /**
  * Profile page object model.
  */
-export class ProfilePage extends BasePage {
-  public readonly header: HeaderComponent;
+export class ProfilePage extends BaseCategoryPage {
+  public readonly booksTable: ProfileBooksTableComponent;
 
   /**
    * Creates an instance of ProfilePage.
@@ -16,7 +16,7 @@ export class ProfilePage extends BasePage {
    */
   constructor(page: Page, url: string) {
     super(page, url);
-    this.header = new HeaderComponent(page, page.getByRole('banner'));
+    this.booksTable = new ProfileBooksTableComponent(page, page.getByRole('table').first());
   }
 
   /**
@@ -34,10 +34,34 @@ export class ProfilePage extends BasePage {
   }
 
   /**
+   * Returns the delete confirmation OK button locator.
+   */
+  get confirmDeleteOkButton(): Locator {
+    return this.page.locator('#closeSmallModal-ok');
+  }
+
+  /**
    * Returns the current user name value.
    */
   async getUserNameValue(): Promise<string> {
     const value = await this.userNameValue.textContent();
     return value?.trim() ?? '';
+  }
+
+  /**
+   * Checks whether a book with given title exists in profile table.
+   * @param title Book title.
+   */
+  async hasBookInCollection(title: string): Promise<boolean> {
+    return this.booksTable.hasBookTitle(title);
+  }
+
+  /**
+   * Deletes a book from profile table by title and confirms deletion.
+   * @param title Book title.
+   */
+  async deleteBookByTitle(title: string): Promise<void> {
+    await this.booksTable.clickDeleteByTitle(title);
+    await this.confirmDeleteOkButton.click();
   }
 }

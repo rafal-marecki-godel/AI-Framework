@@ -4,9 +4,9 @@ import { getEnvNumber, getEnvString, getOptionalEnvNumber } from './src/utils/en
 
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: true,
+  fullyParallel: false,
   retries: getEnvNumber('PW_RETRIES', 0),
-  workers: getOptionalEnvNumber('PW_WORKERS'),
+  workers: getOptionalEnvNumber('PW_WORKERS') ?? 1,
   timeout: getEnvNumber('PW_TEST_TIMEOUT_MS', 30_000),
   expect: {
     timeout: getEnvNumber('PW_EXPECT_TIMEOUT_MS', 5_000),

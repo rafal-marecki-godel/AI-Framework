@@ -1,6 +1,6 @@
 // path: src/fixtures/baseTest.ts
 import { test as base } from '@playwright/test';
-import { AlertsAndWindowsPage, ElementsPage, FormsPage, HomePage, InteractionsPage, LoginPage, ProfilePage, WidgetsPage } from '@pages';
+import { AlertsAndWindowsPage, BookStorePage, ElementsPage, FormsPage, HomePage, InteractionsPage, LoginPage, ProfilePage, SpecificBookPage, WidgetsPage } from '@pages';
 import { UrlConfig } from '@config/environment.config';
 import { Logger } from '@utils/logger';
 
@@ -11,6 +11,8 @@ export type BaseFixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
   profilePage: ProfilePage;
+  bookStorePage: BookStorePage;
+  specificBookPage: SpecificBookPage;
   alertsAndWindowsPage: AlertsAndWindowsPage;
   elementsPage: ElementsPage;
   formsPage: FormsPage;
@@ -31,6 +33,12 @@ export class BaseTest {
     },
     profilePage: async ({ page }, use) => {
       await use(new ProfilePage(page, UrlConfig.profile));
+    },
+    bookStorePage: async ({ page }, use) => {
+      await use(new BookStorePage(page, UrlConfig.books));
+    },
+    specificBookPage: async ({ page }, use) => {
+      await use(new SpecificBookPage(page, UrlConfig.specificBook));
     },
     alertsAndWindowsPage: async ({ page }, use) => {
       await use(new AlertsAndWindowsPage(page, UrlConfig.alertsWindows));
@@ -53,8 +61,9 @@ export class BaseTest {
    * Registers common setup and teardown hooks.
    */
   public static registerHooks(): void {
-    BaseTest.test.beforeEach(async ({}, testInfo) => {
+    BaseTest.test.beforeEach(async ({ loginPage }, testInfo) => {
       Logger.info(`Starting test: ${testInfo.title}`);
+      await loginPage.ensureLoggedOut();
     });
 
     BaseTest.test.afterEach(async ({}, testInfo) => {

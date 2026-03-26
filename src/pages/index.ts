@@ -1,10 +1,12 @@
 export { AlertsAndWindowsPage } from './AlertsAndWindowsPage';
 export { BaseCategoryPage } from './BaseCategoryPage';
 export { BasePage } from './BasePage';
+export { BookStorePage } from './BookStorePage';
 export { ElementsPage } from './ElementsPage';
 export { FormsPage } from './FormsPage';
 export { HomePage } from './HomePage';
 export { InteractionsPage } from './InteractionsPage';
 export { LoginPage } from './LoginPage';
 export { ProfilePage } from './ProfilePage';
+export { SpecificBookPage } from './SpecificBookPage';
 export { WidgetsPage } from './WidgetsPage';

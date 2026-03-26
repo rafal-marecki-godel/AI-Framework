@@ -35,9 +35,10 @@ export abstract class BasePage {
 
   /**
    * Waits until the browser URL matches the page path.
+   * @param timeoutMs Maximum wait time in milliseconds.
    */
-  async waitForUrl(): Promise<void> {
-    await this.page.waitForURL((url) => url.pathname === this.url);
+  async waitForUrl(timeoutMs = 30_000): Promise<void> {
+    await this.page.waitForURL((url) => url.pathname === this.url, { timeout: timeoutMs });
   }
 
   /**
