@@ -9,8 +9,6 @@ import { navigateCardAndGoBack } from '../helpers/navigationHelpers';
 // Covers requirements: Home page card rendering and category page routing.
 // ---------------------------------------------------------------------------
 
-// Module-scoped card definitions used across multiple tests. Centralising here
-// avoids duplicating the array in every test body (Finding #9).
 const EXPECTED_CARD_HREFS: Record<HomePageCard, string> = {
   [HomePageCard.Elements]:              '/elements',
   [HomePageCard.Forms]:                 '/forms',
@@ -21,13 +19,6 @@ const EXPECTED_CARD_HREFS: Record<HomePageCard, string> = {
 };
 
 test.describe('[TC-NAV] Main Navigation', () => {
-
-  // -------------------------------------------------------------------------
-  // TC-NAV-001
-  // Requirement: All 6 category cards must be visible on the DemoQA home page.
-  // Finding fixed: #1 — bookStoreApplicationCard was missing from the assertion.
-  // Finding fixed: #6 — BDD grammar corrected (Given → When → Then).
-  // -------------------------------------------------------------------------
   test('[TC-NAV-001] should display all 6 category cards on the home page',
     async ({ homePage }) => {
       await test.step('Given the user opens the DemoQA home page', async () => {
@@ -49,12 +40,6 @@ test.describe('[TC-NAV] Main Navigation', () => {
     },
   );
 
-  // -------------------------------------------------------------------------
-  // TC-NAV-002
-  // Requirement: Each card link must point to the correct internal route.
-  // Finding fixed: #2 — replaces weak "did it navigate?" check with an explicit
-  //                href assertion, catching misconfigured routes before a click.
-  // -------------------------------------------------------------------------
   test('[TC-NAV-002] each category card link should point to the correct URL path',
     async ({ homePage }) => {
       await test.step('Given the user opens the DemoQA home page', async () => {
@@ -76,14 +61,6 @@ test.describe('[TC-NAV] Main Navigation', () => {
     },
   );
 
-  // -------------------------------------------------------------------------
-  // TC-NAV-003
-  // Requirement: Clicking each card navigates to the correct category page and
-  //              the browser back button restores the home page.
-  // Finding fixed: #4 — separated from TC-NAV-001 so visibility and navigation
-  //                are independently traceable requirements.
-  // Finding fixed: #3 — ad assertion removed from navigateCardAndGoBack helper.
-  // -------------------------------------------------------------------------
   test('[TC-NAV-003] each card should navigate to the correct page and allow returning to Home Page',
     async ({ homePage, elementsPage, formsPage, alertsAndWindowsPage, widgetsPage, interactionsPage, bookStorePage }) => {
       await test.step('Given the user opens the DemoQA home page', async () => {
@@ -109,12 +86,6 @@ test.describe('[TC-NAV] Main Navigation', () => {
     },
   );
 
-  // -------------------------------------------------------------------------
-  // TC-NAV-004 (Edge)
-  // Requirement: All card links must be interactable — not disabled or
-  //              aria-hidden. Guards against feature-flagged / loading states
-  //              where a card is rendered but intentionally non-clickable.
-  // -------------------------------------------------------------------------
   test('[TC-NAV-004] all category card links should be enabled and not aria-disabled',
     async ({ homePage }) => {
       await test.step('Given the user opens the DemoQA home page', async () => {
@@ -144,13 +115,6 @@ test.describe('[TC-NAV] Main Navigation', () => {
     },
   );
 
-  // -------------------------------------------------------------------------
-  // TC-NAV-005 (Edge)
-  // Requirement: No card link may have an empty, anchor-only (#), javascript:,
-  //              or external-domain href. Catches broken build outputs that
-  //              render cards with placeholder hrefs that silently go nowhere
-  //              or route outside the application.
-  // -------------------------------------------------------------------------
   test('[TC-NAV-005] no category card link should have an empty, anchor-only, or external-domain href',
     async ({ homePage }) => {
       await test.step('Given the user opens the DemoQA home page', async () => {

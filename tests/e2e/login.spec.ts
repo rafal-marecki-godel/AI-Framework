@@ -5,11 +5,9 @@ import { test, expect } from '@fixtures/baseTest';
 /**
  * Login page E2E tests.
  */
-test.describe('Login page', () => {
-  /**
-   * Verifies successful login redirects to profile page and displays normalized user name.
-   */
-  test('should login and display books label with lowercased username', async ({ loginPage, profilePage }) => {
+test.describe('[TC-LOGIN] Login page', () => {
+  // TC-LOGIN-001: Valid credentials redirect to the profile page and display the normalised username.
+  test('[TC-LOGIN-001] should login and display books label with lowercased username', async ({ loginPage, profilePage }) => {
     const { username, password } = TestUserConfig.bookStoreUser;
 
     await test.step('Given the user opens the login page', async () => {
@@ -26,14 +24,14 @@ test.describe('Login page', () => {
     });
 
     await test.step('And the displayed username should match the username in lowercase', async () => {
-      await expect(await profilePage.getUserNameValue()).toBe(username.toLowerCase());
+      // Use the locator directly so Playwright can auto-retry — avoids bypassing the retry
+      // mechanism with `expect(await getValue()).toBe(...)`.
+      await expect(profilePage.userNameValue).toHaveText(username.toLowerCase());
     });
   });
 
-  /**
-   * Verifies invalid credentials display the login error message.
-   */
-  test('should display invalid credentials message for incorrect login data', async ({ loginPage }) => {
+  // TC-LOGIN-002: Invalid credentials display the login error message.
+  test('[TC-LOGIN-002] should display invalid credentials message for incorrect login data', async ({ loginPage }) => {
     const { username, password } = TestUserConfig.invalidUser;
 
     await test.step('Given the user opens the login page', async () => {

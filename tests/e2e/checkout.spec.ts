@@ -1,19 +1,20 @@
+// path: tests/e2e/checkout.spec.ts
 import { TestUserConfig } from '@config/environment.config';
 import { test, expect } from '@fixtures/baseTest';
 
 /**
- * 
- * DemoQA does not have a real checkout flow, 
- * But we can simulate a checkout-like flow by: 
- * - Searching book library, 
- * - Clicking on a book, 
- * - Adding it to user profile, 
- * - Ensuring the book is in the profile
- * - Removing the book from profile
- * - Ensuring the book is removed 
+ * DemoQA does not have a real checkout flow,
+ * but we can simulate a checkout-like flow by:
+ * - Searching book library,
+ * - Clicking on a book,
+ * - Adding it to user profile,
+ * - Ensuring the book is in the profile,
+ * - Removing the book from profile,
+ * - Ensuring the book is removed.
  */
-test.describe('Checkout flow', () => {
-  test('should add a selected book to profile and remove it', async ({ page, loginPage, bookStorePage, specificBookPage, profilePage }) => {
+test.describe('[TC-CHECKOUT] Checkout flow', () => {
+  // TC-CHECKOUT-001: A book can be added to the user's profile and subsequently removed.
+  test('[TC-CHECKOUT-001] should add a selected book to profile and remove it', async ({ page, loginPage, bookStorePage, specificBookPage, profilePage }) => {
     const { username, password } = TestUserConfig.bookStoreUser;
     const targetTitle = 'Git Pocket Guide';
 
@@ -47,8 +48,7 @@ test.describe('Checkout flow', () => {
     });
 
     await test.step('And the user should be able to remove the book from profile', async () => {
-      await profilePage.navigate();
-      // Wait for dialog to appear after delete button click
+      // No second profilePage.navigate() — already on the profile page from the previous step
       const dialogPromise = page.waitForEvent('dialog');
 
       await profilePage.deleteBookByTitle(targetTitle);
@@ -56,7 +56,7 @@ test.describe('Checkout flow', () => {
       const dialog = await dialogPromise;
       expect(dialog.message()).toContain('Book deleted');
       await dialog.accept();
-      
+
       await expect(profilePage.booksTable.getTitleLinkByTitle(targetTitle)).toHaveCount(0);
     });
   });
