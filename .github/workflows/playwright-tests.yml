@@ -75,3 +75,50 @@ jobs:
           name: playwright-traces
           path: test-results/**/trace*.zip
           retention-days: 30
+
+      # Notify Microsoft Teams on failure
+      - name: Notify Teams on failure
+        if: failure()
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "type": "message",
+              "attachments": [
+                {
+                  "contentType": "application/vnd.microsoft.card.adaptive",
+                  "content": {
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    "type": "AdaptiveCard",
+                    "version": "1.4",
+                    "body": [
+                      {
+                        "type": "TextBlock",
+                        "text": "❌ Playwright Tests Failed",
+                        "weight": "Bolder",
+                        "size": "Large",
+                        "color": "Attention"
+                      },
+                      {
+                        "type": "FactSet",
+                        "facts": [
+                          { "title": "PR", "value": "${{ github.event.pull_request.title }}" },
+                          { "title": "Author", "value": "${{ github.event.pull_request.user.login }}" },
+                          { "title": "Branch", "value": "${{ github.head_ref }}" }
+                        ]
+                      },
+                      {
+                        "type": "ActionSet",
+                        "actions": [
+                          {
+                            "type": "Action.OpenUrl",
+                            "title": "View failed run",
+                            "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }'
