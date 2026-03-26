@@ -24,42 +24,42 @@ export class HomePage extends BasePage {
    * Returns the Elements category card locator.
    */
   get elementsCard(): Locator {
-    return this.getByRole('link', 'Elements');
+    return this.page.locator('.category-cards a').nth(0);
   }
 
   /**
    * Returns the Forms category card locator.
    */
   get formsCard(): Locator {
-    return this.getByRole('link', 'Forms');
+    return this.page.locator('.category-cards a').nth(1);
   }
 
   /**
    * Returns the Alerts Frame & Windows category card locator.
    */
   get alertsFrameAndWindowsCard(): Locator {
-    return this.getByRole('link', 'Alerts, Frame & Windows');
+    return this.page.locator('.category-cards a').nth(2);
   }
 
   /**
    * Returns the Widgets category card locator.
    */
   get widgetsCard(): Locator {
-    return this.getByRole('link', 'Widgets');
+    return this.page.locator('.category-cards a').nth(3);
   }
 
   /**
    * Returns the Interactions category card locator.
    */
   get interactionsCard(): Locator {
-    return this.getByRole('link', 'Interactions');
+    return this.page.locator('.category-cards a').nth(4);
   }
 
   /**
    * Returns the Book Store Application category card locator.
    */
   get bookStoreApplicationCard(): Locator {
-    return this.getByRole('link', 'Book Store Application');
+    return this.page.locator('.category-cards a').nth(5);
   }
 
   /**

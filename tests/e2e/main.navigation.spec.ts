@@ -8,7 +8,8 @@ test.describe('Main Navigation', () => {
     'should display all cards and each card should navigate to the correct page and allow returning to Home Page',
     async ({ homePage, elementsPage, formsPage, alertsAndWindowsPage, widgetsPage, interactionsPage, page }) => {
       await test.step('Given the user opens the DemoQA home page', async () => {
-        await homePage.navigate();
+        await page.goto('https://demoqa.com');
+        await page.waitForTimeout(1000);
       });
 
       await test.step('Then all category cards should be visible', async () => {
