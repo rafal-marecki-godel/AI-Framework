@@ -1,8 +1,10 @@
 name: Playwright Tests
 
-# Trigger only on pull requests targeting main
+# Trigger on pull requests targeting main, and on direct pushes to main (for Pages deploy)
 on:
   pull_request:
+    branches: [ main ]
+  push:
     branches: [ main ]
 
 # Cancel in-progress runs for the same PR to avoid wasted compute
@@ -22,10 +24,15 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.58.2-noble
     timeout-minutes: 15
+    environment: github-pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     env:
       CI: true
-      BASE_URL: https://demoqa.com
+      BASE_URL: ${{ secrets.BASE_URL }}
       PW_RETRIES: 2
       PW_TEST_TIMEOUT_MS: 30000
       PW_EXPECT_TIMEOUT_MS: 5000
@@ -122,6 +129,58 @@ jobs:
                 }
               ]
             }'
+
+      # Fetch previous run history from gh-pages branch (non-blocking if branch absent)
+      - name: Fetch gh-pages history
+        if: always() && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        uses: actions/checkout@v6.0.2
+        with:
+          ref: gh-pages
+          path: .gh-pages-tmp
+          fetch-depth: 1
+
+      # Append current run entry to history.json and write it into playwright-report/
+      - name: Update history.json
+        if: always() && github.ref == 'refs/heads/main'
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const prevFile = '.gh-pages-tmp/history.json';
+          const outFile  = 'playwright-report/history.json';
+
+          let history = [];
+          try { history = JSON.parse(fs.readFileSync(prevFile, 'utf8')); } catch {}
+          if (!Array.isArray(history)) history = [];
+
+          history.push({
+            timestamp:  new Date().toISOString(),
+            runUrl:     '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}',
+            commitSha:  '${{ github.sha }}',
+            ref:        '${{ github.ref }}',
+            branch:     '${{ github.ref_name }}',
+            conclusion: '${{ job.status }}'
+          });
+
+          if (history.length > 100) history = history.slice(-100);
+
+          fs.mkdirSync('playwright-report', { recursive: true });
+          fs.writeFileSync(outFile, JSON.stringify(history, null, 2));
+          console.log(`History updated — ${history.length} entries.`);
+          EOF
+
+      # Package playwright-report/ as a GitHub Pages artifact
+      - name: Upload Pages artifact
+        if: always() && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: playwright-report/
+
+      # Publish to GitHub Pages
+      - name: Deploy to GitHub Pages
+        if: always() && github.ref == 'refs/heads/main'
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   security-scan:
     name: security-scan
