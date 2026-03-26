@@ -18,30 +18,41 @@ jobs:
   playwright-tests:
     name: playwright-tests
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Playwright image: browsers + all system deps pre-installed, no apt-get needed
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+    timeout-minutes: 15
 
     env:
       CI: true
+      BASE_URL: https://demoqa.com
+      PW_RETRIES: 2
+      PW_TEST_TIMEOUT_MS: 30000
+      PW_EXPECT_TIMEOUT_MS: 5000
+      PW_HEADLESS: true
+      PW_WORKERS: 3
 
     steps:
-      # Check out the repository code
+      # Check out the repository code (shallow clone — no history needed)
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # Set up Node.js LTS with Yarn cache
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-          cache: yarn
+          fetch-depth: 1
+
+      # Cache yarn dependencies
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.yarn/cache
+            node_modules
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-
 
       # Install dependencies using the frozen lockfile
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
-
-      # Install Playwright browsers and system-level dependencies
-      - name: Install Playwright browsers
-        run: yarn playwright install --with-deps
+        run: yarn install --immutable --immutable-cache
 
       # Run all Playwright tests in parallel
       - name: Run Playwright tests

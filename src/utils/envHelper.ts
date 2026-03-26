@@ -25,7 +25,7 @@ export function getEnvNumber(key: string, fallback?: number): number {
     if (!Number.isNaN(parsed)) {
       return parsed;
     }
-    throw new Error(`Environment variable ${key} must be a valid number.`);
+    throw new Error(`Environment variable ${key} must be a valid number`);
   }
 
   if (fallback !== undefined) {
@@ -33,21 +33,4 @@ export function getEnvNumber(key: string, fallback?: number): number {
   }
 
   throw new Error(`Environment variable ${key} is not defined.`);
-}
-
-/**
- * Reads optional numeric environment variables.
- */
-export function getOptionalEnvNumber(key: string): number | undefined {
-  const rawValue = process.env[key];
-  if (rawValue === undefined || rawValue === '') {
-    return undefined;
-  }
-
-  const parsed = Number(rawValue);
-  if (Number.isNaN(parsed)) {
-    throw new Error(`Environment variable ${key} must be a valid number.`);
-  }
-
-  return parsed;
 }
