@@ -14,9 +14,6 @@ concurrency:
 permissions:
   contents: read
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   playwright-tests:
     name: playwright-tests
@@ -38,13 +35,13 @@ jobs:
     steps:
       # Check out the repository code (shallow clone — no history needed)
       - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 1
 
       # Cache yarn dependencies
       - name: Cache yarn dependencies
-        uses: actions/cache@v4.2.2
+        uses: actions/cache@v5.0.4
         with:
           path: |
             ~/.yarn/cache
@@ -64,7 +61,7 @@ jobs:
       # Upload HTML report for review (always, even on failure)
       - name: Upload HTML report
         if: always()
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: playwright-html-report
           path: playwright-report
@@ -73,7 +70,7 @@ jobs:
       # Upload traces for debugging failed tests (always)
       - name: Upload Playwright traces
         if: always()
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: playwright-traces
           path: test-results/**/trace*.zip
@@ -135,13 +132,13 @@ jobs:
     steps:
       # Check out the repository code (shallow clone — no history needed)
       - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 1
 
       # Set up Node.js LTS with Yarn cache
       - name: Set up Node.js
-        uses: actions/setup-node@v4.4.0
+        uses: actions/setup-node@v6.3.0
         with:
           node-version: lts/*
           cache: yarn
