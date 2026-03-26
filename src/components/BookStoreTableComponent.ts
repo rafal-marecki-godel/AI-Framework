@@ -64,6 +64,10 @@ export class BookStoreTableComponent extends BaseComponent {
    * @param title Book title.
    */
   async hasBookTitle(title: string): Promise<boolean> {
+    if (!title?.trim()) {
+      return false;
+    }
+
     return (await this.getTitleLinkByTitle(title).count()) > 0;
   }
 }
