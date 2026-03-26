@@ -56,11 +56,59 @@ yarn test:e2e:ui
 yarn test:e2e:debug
 ```
 
-## CI
+## CI/ Pages
 
 Tests run automatically on every pull request targeting `main` and on every push to `main`.
 
-The HTML report is published to [GitHub Pages](https://rafal-marecki-godel.github.io/AI-Framework/) after each merge to `main`.
+The HTML report is published to GitHub Pages after each merge to `main`:
+**[https://rafal-marecki-godel.github.io/AI-Framework/](https://rafal-marecki-godel.github.io/AI-Framework/)**
+
+## Project Structure
+
+```
+📦 AI-Framework/
+├── 📁 config/
+│   └── 📄 environment.config.ts       # Environment variable definitions
+├── 📁 src/
+│   ├── 📁 components/                 # Reusable page components (header, tables, errors)
+│   │   ├── 📄 BaseComponent.ts
+│   │   ├── 📄 BookStoreTableComponent.ts
+│   │   ├── 📄 ErrorOutputComponent.ts
+│   │   ├── 📄 HeaderComponent.ts
+│   │   └── 📄 ProfileBooksTableComponent.ts
+│   ├── 📁 fixtures/
+│   │   └── 📄 baseTest.ts             # Custom Playwright fixture with all page objects
+│   ├── 📁 pages/                      # Page Object Model classes
+│   │   ├── 📁 enums/
+│   │   │   └── 📄 HomePageCard.ts     # Enum for home page category cards
+│   │   ├── 📄 AlertsAndWindowsPage.ts
+│   │   ├── 📄 BaseCategoryPage.ts
+│   │   ├── 📄 BasePage.ts
+│   │   ├── 📄 BookStorePage.ts
+│   │   ├── 📄 ElementsPage.ts
+│   │   ├── 📄 FormsPage.ts
+│   │   ├── 📄 HomePage.ts
+│   │   ├── 📄 InteractionsPage.ts
+│   │   ├── 📄 LoginPage.ts
+│   │   ├── 📄 ProfilePage.ts
+│   │   ├── 📄 SpecificBookPage.ts
+│   │   ├── 📄 WidgetsPage.ts
+│   │   └── 📄 index.ts                # Barrel export
+│   └── 📁 utils/
+│       ├── 📄 envHelper.ts            # Typed env variable helpers
+│       └── 📄 logger.ts               # Logging utility
+├── 📁 tests/
+│   ├── 📁 e2e/                        # End-to-end test specs
+│   │   ├── 📄 checkout.spec.ts        # Book purchase flow (add → verify → remove)
+│   │   ├── 📄 login.spec.ts           # Authentication scenarios
+│   │   ├── 📄 navigation.spec.ts      # Home page navigation & routing
+│   │   └── 📄 search.spec.ts          # Book search functionality
+│   └── 📁 helpers/
+│       └── 📄 navigationHelpers.ts    # Shared navigation utilities
+├── 📄 playwright.config.ts            # Playwright configuration
+├── 📄 tsconfig.json
+└── 📄 package.json
+```
 
 ## Notes on DemoQA
 
