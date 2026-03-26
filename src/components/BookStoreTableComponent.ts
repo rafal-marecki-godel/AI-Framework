@@ -44,9 +44,17 @@ export class BookStoreTableComponent extends BaseComponent {
   }
 
   /**
+   * Waits until at least one book row is visible in the table.
+   */
+  private async waitForBooks(): Promise<void> {
+    await this.titleLinks.first().waitFor({ state: 'visible' });
+  }
+
+  /**
    * Returns all book titles from the table.
    */
   async getAllBookTitles(): Promise<string[]> {
+    await this.waitForBooks();
     const titles = await this.titleLinks.allTextContents();
     return titles.map(title => title.trim()).filter(Boolean);
   }
@@ -56,6 +64,7 @@ export class BookStoreTableComponent extends BaseComponent {
    * @param title Book title.
    */
   async clickBookByTitle(title: string): Promise<void> {
+    await this.waitForBooks();
     await this.getTitleLinkByTitle(title).click();
   }
 
