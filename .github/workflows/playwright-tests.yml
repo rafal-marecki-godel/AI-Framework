@@ -132,12 +132,11 @@ jobs:
       # Fetch previous run history from gh-pages branch (non-blocking if branch absent)
       - name: Fetch gh-pages history
         if: always() && github.ref == 'refs/heads/main'
-        continue-on-error: true
-        uses: actions/checkout@v6.0.2
-        with:
-          ref: gh-pages
-          path: .gh-pages-tmp
-          fetch-depth: 1
+        run: |
+          mkdir -p .gh-pages-tmp
+          git fetch origin gh-pages:refs/remotes/origin/gh-pages 2>/dev/null && \
+            git show origin/gh-pages:history.json > .gh-pages-tmp/history.json 2>/dev/null || \
+            echo "[]" > .gh-pages-tmp/history.json
 
       # Append current run entry to history.json and write it into playwright-report/
       - name: Update history.json
