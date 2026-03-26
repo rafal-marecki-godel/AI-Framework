@@ -25,7 +25,7 @@ export function getEnvNumber(key: string, fallback?: number): number {
     if (!Number.isNaN(parsed)) {
       return parsed;
     }
-    throw new Error(`Environment variable ${key} must be a valid number.`);
+    throw new Error(`Environment variable ${key} must be a valid number`);
   }
 
   if (fallback !== undefined) {
