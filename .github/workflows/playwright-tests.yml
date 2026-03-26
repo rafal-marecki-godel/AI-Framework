@@ -35,13 +35,13 @@ jobs:
     steps:
       # Check out the repository code (shallow clone — no history needed)
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 1
 
       # Cache yarn dependencies
       - name: Cache yarn dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5.0.4
         with:
           path: |
             ~/.yarn/cache
@@ -61,7 +61,7 @@ jobs:
       # Upload HTML report for review (always, even on failure)
       - name: Upload HTML report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: playwright-html-report
           path: playwright-report
@@ -70,7 +70,7 @@ jobs:
       # Upload traces for debugging failed tests (always)
       - name: Upload Playwright traces
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: playwright-traces
           path: test-results/**/trace*.zip
@@ -122,3 +122,53 @@ jobs:
                 }
               ]
             }'
+
+  security-scan:
+    name: security-scan
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    timeout-minutes: 10
+
+    steps:
+      # Check out the repository code (shallow clone — no history needed)
+      - name: Checkout repository
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 1
+
+      # Set up Node.js LTS with Yarn cache
+      - name: Set up Node.js
+        uses: actions/setup-node@v6.3.0
+        with:
+          node-version: lts/*
+          cache: yarn
+
+      # Install dependencies using the frozen lockfile
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+
+      # Run yarn audit and write summary; fail on high/critical
+      - name: Run dependency vulnerability scan
+        run: |
+          echo "## 🔐 Dependency Vulnerability Scan" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Capture audit output (yarn audit exits non-zero when vulnerabilities found)
+          AUDIT_OUTPUT=$(yarn audit --level high --json 2>&1 || true)
+
+          # Count vulnerabilities by severity
+          HIGH=$(echo "$AUDIT_OUTPUT" | grep -c '"severity":"high"' || true)
+          CRITICAL=$(echo "$AUDIT_OUTPUT" | grep -c '"severity":"critical"' || true)
+          TOTAL=$((HIGH + CRITICAL))
+
+          if [ "$TOTAL" -gt 0 ]; then
+            echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| 🔴 Critical | $CRITICAL |" >> $GITHUB_STEP_SUMMARY
+            echo "| 🟠 High     | $HIGH |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "> ❌ **$TOTAL high/critical vulnerabilities found. Blocking PR.**" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "> ✅ **No high or critical vulnerabilities found.**" >> $GITHUB_STEP_SUMMARY
+          fi
