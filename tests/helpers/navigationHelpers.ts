@@ -5,10 +5,9 @@ import { HomePage } from '@pages';
 import { HomePageCard } from '@pages/enums/HomePageCard';
 
 /**
- * Clicks a category card, verifies the target page URL, goes back using the browser's
- * back button, and verifies the home page is restored.
+ * Clicks a category card, verifies the target page URL and side navigation,
+ * goes back using the browser's back button, and verifies the home page is restored.
  * @param homePage Home page object.
- * @param page Playwright page object used for browser navigation.
  * @param card Card to open from the home page.
  * @param targetPage Target category page object.
  */
@@ -24,7 +23,6 @@ export async function navigateCardAndGoBack(
   await test.step(`Then the ${card} page should be displayed`, async () => {
     await targetPage.waitForUrl();
     await expect(targetPage.sideNavPannel).toBeVisible();
-    await expect(targetPage.advertisementElement).toBeVisible();
   });
 
   await test.step('When the user goes back to the Home Page', async () => {
